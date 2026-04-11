@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Julia Monson | Analytics Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .section-head {
+  justify-content: center;
+  text-align: center;
+}
+
+.section-head p {
+  max-width: 600px;
+  margin: 0 auto;
+}
+    .contact-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.contact-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.9rem 1rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.82);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-weight: 700;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-button i {
+  color: #f4b6c2;
+  font-size: 1rem;
+}
+
+.contact-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(91, 110, 138, 0.14);
+}
+
+@media (max-width: 640px) {
+  .contact-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+  /* ABOUT SECTION */
+#about {
+  text-align: center;
+}
+
+.about-flex {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+  flex-wrap: wrap;
+}
+
+.about-pic {
+  width: 200px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 50%;
+  border: 4px solid var(--accent-2);
+  box-shadow: var(--shadow);
+}
+
+.about-text {
+  flex: 1;
+  min-width: 250px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.running-section {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.running-pic {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.running-caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+ :root {
+  --bg: #faf7fb;
+  --bg-soft: #f2f6fb;
+  --panel: rgba(255,255,255,0.92);
+  --panel-2: #f9fbff;
+
+  --text: #010101;
+  --muted: #000000;
+
+ /*colors*/
+  --accent: #a8c7e8;      /*  blue */
+  --accent-2: #f4b6c2;    /* pastel pink */
+  --accent-3: #d9c7f3;    /* lavender */
+  --accent-4: #b8e0d2;    /* mint */
+
+  --line: rgba(120, 140, 170, 0.18);
+  --shadow: 0 16px 35px rgba(120, 140, 170, 0.12);
+}
+
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(circle at top left, rgba(217,199,232,0.38), transparent 28%),
+      radial-gradient(circle at 90% 8%, rgba(167,207,196,0.32), transparent 22%),
+      linear-gradient(180deg, #fbfbfe 0%, #f2f5f9 100%);
+    line-height: 1.65;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  .container { width: min(var(--max), calc(100% - 2rem)); margin: 0 auto; }
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(16px);
+    background: rgba(247, 246, 251, 0.75);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .brand {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-size: 1.05rem;
+  }
+
+  .brand span { color: #eaadd1; }
+
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: 0.2s ease;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .hero {
+    padding: 5.5rem 0 3rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(140,169,201,0.18);
+    color: #5d7698;
+    border: 1px solid rgba(140,169,201,0.26);
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+  }
+
+  .hero h1 span { color: #6f89ac; }
+
+  .lead {
+    max-width: 60ch;
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.92rem 1.2rem;
+    border-radius: 999px;
+    font-weight: 700;
+    border: 1px solid transparent;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(91, 110, 138, 0.14);
+  }
+
+  .button.primary {
+  background: linear-gradient(135deg, #a8c7e8, #f4b6c2);
+  color: white;
+  }
+
+  .button.secondary {
+    background: rgba(255,255,255,0.72);
+    border-color: var(--line);
+    color: var(--text);
+  }
+
+  .mini-proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  .pill {
+    padding: 0.62rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    color: #526272;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.72);
+  }
+
+  .panel, .card, .project-card, .contact-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+  }
+
+  .panel { padding: 1.3rem; }
+
+  .hero-side h3, .card h3, .project-card h3, .contact-card h3 {
+    margin: 0 0 0.55rem;
+    font-size: 1.08rem;
+  }
+
+  .hero-side p, .card p, .project-card p, .contact-card p, li {
+    color: var(--muted);
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+    margin: 1rem 0;
+  }
+
+  .stat {
+    padding: 1rem;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(238,243,247,0.85));
+    border: 1px solid var(--line);
+  }
+
+  .stat strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 1.2rem;
+    color: var(--text);
+  }
+
+  .stat span {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  section { padding: 2rem 0; }
+
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1rem;
+    margin-bottom: 1.3rem;
+  }
+
+  .section-head h2 {
+    margin: 0 0 0.35rem;
+    font-size: clamp(1.6rem, 2.8vw, 2.35rem);
+    letter-spacing: -0.04em;
+  }
+
+  .section-head p { margin: 0; color: var(--muted); max-width: 62ch; }
+
+  .grid-2, .grid-3, .grid-4 { display: grid; gap: 1rem; }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card { padding: 1.2rem; }
+
+  .tag {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #ffe4ec, #f8c7d4);
+  border: 1px solid rgba(243, 185, 200, 0.6);
+
+  color: #000000;
+
+  box-shadow: 0 4px 12px rgba(116, 137, 131, 0.25);
+
+  transition: all 0.2s ease;
+  }
+    #skills .card ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 1rem 0 0;
+}
+
+#skills .card li {
+  margin-bottom: 0.45rem;
+}
+
+  .project-card { overflow: hidden; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .project-card:hover { transform: translateY(-4px); box-shadow: 0 18px 38px rgba(91, 110, 138, 0.16); }
+
+  .project-image {
+  background: linear-gradient(135deg, 
+    rgba(244,182,194,0.35),   /* pink */
+    rgba(168,199,232,0.30),   /* blue */
+    rgba(217,199,243,0.30)    /* lavender */
+  );
+  }
+
+  .project-image div {
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: #4f6278;
+    padding: 1rem;
+  }
+
+  .project-body { padding: 1.25rem; }
+  .project-links { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-top: 0.95rem; }
+  .text-link { color: #6f89ac; font-weight: 700; font-size: 0.94rem; }
+
+  .screenshot-strip {
+    display: flex;
+    gap: 0.9rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.35rem;
+    margin-top: 0.6rem;
+  }
+
+  .screenshot-strip::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  .screenshot-strip::-webkit-scrollbar-track {
+    background: rgba(140,169,201,0.14);
+    border-radius: 999px;
+  }
+
+  .screenshot-strip::-webkit-scrollbar-thumb {
+    background: rgba(111,137,172,0.48);
+    border-radius: 999px;
+  }
+
+  .screenshot-card {
+    min-width: 70%;
+    max-width: 700px;
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+  }
+
+  .screenshot-card img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    display: block;
+    border-radius: 14px;
+    border: 1px solid rgba(69, 90, 120, 0.14);
+    box-shadow: 0 12px 24px rgba(91, 110, 138, 0.10);
+  }
+
+  .screenshot-note {
+    font-size: 0.82rem;
+    color: #617186;
+    margin-top: 0.45rem;
+  }
+
+  .about-wrap {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 1rem;
+  }
+
+  .about-highlight {
+    padding: 1.2rem;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(245, 198, 225, 0.25), rgba(167,207,196,0.18));
+    border: 1px solid var(--line);
+  }
+    .contact-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: start;
+  margin-top: 1rem;
+}
+
+.contact-intro {
+  padding: 1.4rem;
+}
+
+.contact-intro h3,
+.contact-card h3 {
+  margin-bottom: 0.8rem;
+}
+
+.contact-card {
+  padding: 1.4rem;
+}
+
+.contact-item {
+  padding: 0.9rem 1rem;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  margin-top: 0.8rem;
+  color: var(--muted);
+}
+
+.contact-item strong {
+  color: var(--text);
+}
+
+#contact .section-head {
+  justify-content: center;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+  ul { padding-left: 1.1rem; margin: 0.7rem 0 0; }
+  .contact-grid { display:grid; grid-template-columns: 1.2fr 0.8fr; gap: 1rem; }
+  .contact-card { padding: 1.2rem; }
+
+  .contact-item {
+    padding: 0.85rem 0.95rem;
+    background: rgba(191, 217, 242, 0.58);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    margin-top: 0.7rem;
+    color: var(--muted);
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    padding: 2rem 0 3rem;
+  }
+
+  @media (max-width: 980px) {
+    .hero-grid, .about-wrap, .contact-grid, .grid-2, .grid-3, .grid-4 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .nav-inner { flex-direction: column; align-items: flex-start; }
+    .hero { padding-top: 4rem; }
+    .cta-row { flex-direction: column; }
+    .button { width: 100%; }
+    .stat-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 2.45rem; }
+  }
+/* ======================================= */
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">Julia <span>Monson</span></a>
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#coursework">Coursework</a>
+        <a href="#about">About Me</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Business Analytics • Data Storytelling • Technical Problem Solving</div>
+          <h1>I like using data to find patterns, solve problems <span> and build clearer reporting</span></h1>
+          <p style="font-weight:800; color:#6f89ac; margin-top:-6px;">Available to Relocate</p>
+          <p class="lead">
+            I’m Julia Monson, a Business Analytics and Information Systems student at Eastern Illinois University building practical projects across Power BI, SQL, Python, and database systems. My portfolio is meant to show the projects, tools, and problem-solving skills I’ve built through coursework, internships, and independent work.
+          </p>
+          <div class="cta-row">
+            <a class="button primary" href="#projects">View My Work</a>
+            <a class="button secondary" href="https://github.com/jewlzmonson" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a class="button secondary" href="https://www.linkedin.com/in/julialmonson/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a class="button primary" href="Files/resume.pdf" target="_blank">Download Resume</a>
+          </div>
+          <div class="mini-proof">
+            <div class="pill">SQL + Python + Power BI</div>
+            <div class="pill">Studying for AWS Certified Cloud Practitioner</div>
+            <div class="pill">ETL Developer/Data Analyst working with the Revenue Operations team in the Finance Department</div>
+            <div class="pill">D1 Cross Country & Track Athlete</div>
+          </div>
+        </div>
+
+        <aside class="panel hero-side">
+          <h3>Quick Snapshot</h3>
+          <p>Focused on analytics, business intelligence, and data-driven problem solving.</p>
+          <div class="stat-grid">
+            <div class="stat"><strong>Power BI</strong><span>Interactive dashboards and visual reporting</span></div>
+            <div class="stat"><strong>SQL</strong><span>Joins, aggregations, filtering, and data analysis</span></div>
+            <div class="stat"><strong>Python</strong><span>File processing, OOP, logic, and data handling</span></div>
+            <div class="stat"><strong>Access</strong><span>Forms, reports, relationships, and database design</span></div>
+          </div>
+          <p>I’m especially interested in Business Analyst, Data Analyst, BI Analyst, RevOps Analyst, and analytics-focused early career roles.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Featured Projects</h2>
+            <p>These projects highlight my strongest independent work, internship experience, and portfolio pieces that best show how I turn structured data into useful insight.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <article class="project-card">
+            <div class="project-image"><div>Border Crossing Power BI Dashboard</div></div>
+            <div class="project-body">
+              <h3>Power BI Data Visualization</h3>
+              <p>Developed an interactive Power BI dashboard analyzing U.S. border crossing activity over time using Bureau of Transportation Statistics data. Used time-series analysis, regional comparisons, and crossing-type groupings to show patterns in trade and travel behavior.</p>
+              <ul>
+                <li>Analyzed border crossing trends from 2016–2025</li>
+                <li>Identified seasonal patterns and regional differences</li>
+                <li>Applied regression modeling to understand drivers of high-volume crossings</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">Power BI</span>
+                <span class="tag">Time Series</span>
+                <span class="tag">Statistical Modeling</span>
+              </div>
+              <div class="project-links" style="display:block; width:100%;">
+                <div class="screenshot-strip">
+                  <div class="screenshot-card">
+                    <img src="images/images/pbi1.png" alt="Border crossings dashboard screenshot showing long-run trend and annual totals">
+                    <p class="screenshot-note">Overview page showing long-run border crossing trends and summary metrics.</p>
+                  </div>
+                  <div class="screenshot-card">
+                    <img src="images/images/pbi2.png" alt="Border crossings dashboard screenshot showing seasonality analysis">
+                    <p class="screenshot-note">Seasonality page comparing monthly border crossing activity across years.</p>
+                  </div>
+                  <div class="screenshot-card">
+                    <img src="images/images/pbi3.png" alt="Border crossings dashboard screenshot showing crossing type and geographic differences">
+                    <p class="screenshot-note">Geographic and crossing-type breakdown highlighting top ports and border regions.</p>
+                  </div>
+                  <div class="screenshot-card">
+                    <img src="images/images/pbi4.png" alt="Border crossings dashboard screenshot showing high-volume crossing indicators">
+                    <p class="screenshot-note">High-volume crossing page showing indicators tied to traffic intensity.</p>
+                  </div>
+                </div>
+                <p style="font-size:0.86rem; color:#617186; margin-top:0.8rem;">Scroll through the dashboard screenshots to view trend analysis, seasonality, geographic differences, and high-volume crossing indicators.</p>
+                <a class="text-link" href="Files/border-crossings-writeup.pdf" target="_blank">View Project Review</a>
+              </div>
+            </div>
+          </article>
+
+          
+
+          <article class="project-card">
+            <div class="project-image"><div>SQL Data Cleaning Project</div></div>
+            <div class="project-body">
+              <h3>Data Cleaning & Transformation in SQL</h3>
+              <p>Cleaned and standardized raw Nashville housing data using SQL by handling null values, removing duplicates, correcting inconsistent values, and transforming columns into more usable formats. This project shows my ability to clean raw data and prepare it for analysis and reporting. </p>
+              <div class="tag-row">
+                <span class="tag">SQL</span>
+                <span class="tag">Data Cleaning</span>
+                <span class="tag">Transformation</span>
+              </div>
+              <div class="project-links">
+                <a class="text-link" href="https://github.com/jewlzmonson/PortfolioProjects/blob/main/SQLQuery_DataCleaning.sql" target="_blank">View Code</a>
+                <a class="text-link" href="Data/Nashville Housing Data for Data Cleaning.xlsx" target="_blank">View Dataset</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image"><div>COVID-19 Data Analysis</div></div>
+            <div class="project-body">
+              <h3>SQL Analysis, Tableau Dashboard & Survey Research</h3>
+              <p>
+                Used SQL to clean and join global COVID-19 death and vaccination datasets, then built Tableau dashboards to explore how vaccination rollout correlated with shifts in death rates across countries and time periods. Currently extending the project with primary survey data collected via Qualtrics.
+              </p>
+
+              <ul>
+                <li>Cleaned and transformed multi-table datasets using SQL joins, window functions, and aggregations</li>
+                <li>Built Tableau dashboards comparing death rate trends before and after vaccination milestones by country</li>
+                <li>Identified key data limitations including cross-country reporting inconsistencies and time-lag effects between vaccination and measurable mortality impact</li>
+                <li>Collecting supplementary primary data via Qualtrics survey to explore public perception of vaccine impact alongside the quantitative findings</li>
+              </ul>
+
+              <div class="tag-row">
+                <span class="tag">SQL</span>
+                <span class="tag">Data Analysis</span>
+                <span class="tag">Qualtrics</span>
+                <span class="tag">Tableau</span>
+              </div>
+
+              <div class="project-links">
+                <a class="text-link" href="https://github.com/jewlzmonson/PortfolioProjects/blob/main/COVID%20Portfolio%20Project%20scripts.sql" target="_blank">View Code</a>
+                <a class="text-link" href="https://public.tableau.com/app/profile/julia.monson/vizzes" target="_blank">View Dashboard</a>
+                 <a class="text-link" href="https://eiu.co1.qualtrics.com/jfe/form/SV_3Q3jEfvndRSsEOW" target="_blank"> View Survey Instrument</a>
+                <a class="text-link" href="Data/covid-deaths-dataset.xlsx" target="_blank">View Dataset (Deaths)</a>
+                <a class="text-link" href="Data/covid-vaccinations-dataset.xlsx" target="_blank">View Dataset (Vaccinations)</a>
+              </div>
+            </div>
+          </article>
+
+        
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Internship Experience</h2>
+            <p>My internship work focused on revenue operations, system mapping, workflow troubleshooting, data cleanup, and cross-functional problem solving across business systems.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <article class="project-card">
+            <div class="project-image"><div>ETL Development/Data Analyst-Revenue Operations Team</div></div>
+            <div class="project-body">
+              <h3>SalesRabbit Internship</h3>
+              <p>During my Revenue Operations internship at SalesRabbit, I worked across multiple business systems including Planhat, Salesforce, Zendesk, Ordway, Rocketlane, Zapier, Notion, and BigQuery to improve data accuracy, system integrations, and workflow reliability.</p>
+              <p>I supported system mapping and integration efforts by defining field relationships, validating bidirectional sync logic, and troubleshooting data flow issues between platforms. I identified and resolved data inconsistencies, including diagnosing a major invoice discrepancy caused by incorrect ID mappings across systems.</p>
+              <div class="tag-row">
+                <span class="tag">Revenue Operations</span>
+                <span class="tag">Systems Mapping</span>
+                <span class="tag">Data Cleanup</span>
+                <span class="tag">Cross-Functional Support</span>
+                <span class="tag">Data Integration</span>
+              </div>
+              <div class="project-links" style="display:block; width:100%;">
+                <img src="images/workflow.png" alt="Invoice workflow automation used during my SalesRabbit internship" style="width:100%; border-radius:14px; margin-top:0.4rem; border:1px solid rgba(69, 90, 120, 0.14); box-shadow: 0 12px 24px rgba(91, 110, 138, 0.10);">
+                <p class="screenshot-note">
+  Simplified workflow diagram (blurred to protect company data)
+</p>
+                <p style="font-size:0.86rem; color:#617186; margin-top:0.7rem;">Workflow automation used to update invoice status based on Salesforce conditions, balance validation, and system logic.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Highlights</h3>
+            <ul>
+              <li>Mapped native integrations between Planhat, Salesforce, and Zendesk.</li>
+              <li>Investigated invoice duplication issues and identified swapped ID mappings as a source of discrepancies.</li>
+              <li>Validated bidirectional field mappings and helped troubleshoot task and contact sync issues.</li>
+              <li>Documented processes, system logic, and workflow issues for internal teams and vendor support.</li>
+            </ul>
+            <h3 style="margin-top:1.2rem;">Impact</h3>
+            <ul>
+              <li>Improving invoice and account data accuracy by 25%.</li>
+              <li>Improved data accuracy by identifying and resolving duplicate invoice issues across connected systems.</li>
+              <li>Strengthened workflow reliability through debugging and refining automation logic.</li>
+              <li>Improved visibility into system behavior by documenting workflows, mappings, and recurring sync issues.</li>
+              <li>Supported cleaner cross-platform data flow between Planhat, Salesforce, Zendesk, and Ordway.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="coursework">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Coursework Showcase</h2>
+            <p>This section turns my academic work into a technical skills portfolio, highlighting the tools, methods, and problem-solving experience behind my coursework.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <h3>SQL Coursework</h3>
+            <ul>
+              <li>Joins, subqueries, sorting, and grouped analysis</li>
+              <li>Aggregate functions such as COUNT, SUM, AVG, MIN, and MAX</li>
+              <li>Query logic using WHERE, AND/OR, LIKE, and calculated fields</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag">SQL</span>
+              <span class="tag">Relational Data</span>
+              <span class="tag">Query Design</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Python Coursework</h3>
+            <ul>
+              <li>Built a Rock-Paper-Scissors Game
+              <li>File-based analysis using gas price and population datasets</li>
+              <li>Object-oriented projects using classes, inheritance, and encapsulation</li>
+              <li>Interactive programs, string processing, and logic-based problem solving</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag">Python</span>
+              <span class="tag">OOP</span>
+              <span class="tag">File Processing</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Access Coursework</h3>
+            <p>Developed relational database projects using tables, relationships, forms, reports, lookup fields, validation rules, and custom queries. This coursework built a strong foundation in database structure, data entry design, and reporting workflows.</p>
+            <ul>
+              <li>Relationship modeling with referential integrity</li>
+              <li>Custom forms, subforms, and reports for business-style workflows</li>
+              <li>Validation rules, parameter queries, crosstab queries, and calculated fields</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag">Access</span>
+              <span class="tag">Database Design</span>
+              <span class="tag">Forms & Reports</span>
+            </div>
+          </article>
+</div>   
+</div>  
+</section>  
+
+<section id="about">
+
+          
+ <section id="about">
+  <div class="container">
+
+    <div class="section-head">
+      <div>
+        <h2>About Me</h2>
+        <p>I’m building a career in analytics by combining technical skill, systems thinking, and a strong work ethic.</p>
+      </div>
+    </div>
+
+    <div class="about-flex">
+
+      <!-- HEADSHOT -->
+      <img src="images/images/headshot.JPG" alt="Julia Monson headshot" class="about-pic">
+
+      <!-- TEXT -->
+      <div class="about-text">
+        <p>
+          I’m a Business Analytics & Information Systems student at Eastern Illinois University with experience in SQL, Power BI, and data analysis.
+          I enjoy working with real-world datasets to uncover trends and build meaningful insights.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- RUNNING PHOTO -->
+    <div class="running-section">
+      <img src="images/images/running.JPG" alt="Julia running" class="running-pic">
+      <p class="running-caption">
+        Outside of academics, I’m a long-distance runner, which has strengthened my discipline, consistency, and goal-oriented mindset.
+      </p>
+    </div>
+
+    <div class="about-highlight">
+      <p>
+        As a Business Analytics and Information Systems student, I enjoy working with data, identifying patterns, and improving the systems behind business operations. My experience across SQL, Python, Power BI, databases, and revenue operations reflects both technical curiosity and a practical, business-focused mindset.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Beyond the classroom</h3>
+      <p>
+        Competing as a Division I Cross Country and Track athlete has required balancing a demanding training schedule with academic and technical work. Managing early mornings, travel, and consistent performance has strengthened my ability to stay organized, focused, and accountable over long periods of time. Outside of running and analytics, I'm usually picking up a new dataset to explore or figuring out how something works — I genuinely like the problem-solving side of this field.
+      </p>
+      <ul>
+        <li>Division I Cross Country & Track</li>
+        <li>Strong time management and accountability</li>
+        <li>Comfortable performing in high-pressure environments</li>
+        <li>Motivated by long-term growth and disciplined execution</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+    <section id="skills">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Skills & Tools</h2>
+            <p>A mix of analytics, programming, and database tools that support data-driven work.</p>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <article class="card">
+            <h3>Programming</h3>
+            <ul>
+              <li>Python</li>
+              <li>SQL</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>BI & Visualization</h3>
+            <ul>
+              <li>Power BI</li>
+              <li>Tableau</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Databases</h3>
+            <ul>
+              <li>Microsoft Access</li>
+              <li>MS SQL Server</li>
+              <li>BigQuery</li>
+              <li>Oracle</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Business Tools</h3>
+            <ul>
+              <li>Excel</li>
+              <li>GitHub</li>
+              <li>Salesforce</li>
+              <li>Zendesk</li>
+              <li>Planhat</li>
+              <li>Notion</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+  <div class="container">
+    <div class="section-head">
+      <div>
+       <h3>Get in touch</h3>
+
+<div class="contact-buttons">
+  <a class="contact-button" href="mailto:juliamonson222@gmail.com">
+    <i class="fas fa-envelope"></i>
+    <span>Email</span>
+  </a>
+
+  <a class="contact-button" href="tel:6187221121">
+    <i class="fas fa-phone"></i>
+    <span>Phone</span>
+  </a>
+
+  <a class="contact-button" href="https://github.com/jewlzmonson" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-github"></i>
+    <span>GitHub</span>
+  </a>
+
+  <a class="contact-button" href="https://www.linkedin.com/in/julialmonson/" target="_blank" rel="noopener noreferrer">
+    <i class="fab fa-linkedin"></i>
+    <span>LinkedIn</span>
+  </a>
+</div>
