@@ -9,6 +9,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
+    .project-screenshots {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1.2rem;
+}
+
+.screenshot img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.screenshot p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.4rem;
+}
     .section-head {
   justify-content: center;
   text-align: center;
@@ -662,17 +679,46 @@
           <article class="project-card">
             <div class="project-image"><div>COVID-19 Data Analysis</div></div>
             <div class="project-body">
-              <h3>SQL Analysis, Tableau Dashboard & Survey Research</h3>
+              <h3>COVID-19 Vaccination & Mortality Analysis | SQL & Tableau</h3>
               <p>
                 Used SQL to clean and join global COVID-19 death and vaccination datasets, then built Tableau dashboards to explore how vaccination rollout correlated with shifts in death rates across countries and time periods. Currently extending the project with primary survey data collected via Qualtrics.
               </p>
 
               <ul>
                 <li>Cleaned and transformed multi-table datasets using SQL joins, window functions, and aggregations</li>
-                <li>Built Tableau dashboards comparing death rate trends before and after vaccination milestones by country</li>
-                <li>Identified key data limitations including cross-country reporting inconsistencies and time-lag effects between vaccination and measurable mortality impact</li>
-                <li>Collecting supplementary primary data via Qualtrics survey to explore public perception of vaccine impact alongside the quantitative findings</li>
+                <li>Used CASE statements to segment data into Pre-Vaccination (2020), Early Vaccination (2021), and Expanded Vaccination (2022+)</li>
+                <li>Found case fatality rates dropped in 4 out of 5 countries after vaccination rollout (India: 1.45% → 0.71%, China: 4.99% → 0.96%)</li>
+                <li>Built a CTE to calculate cumulative vaccination rollout by country over time</li>
+                <li>Applied a 7-day rolling average to smooth daily death reporting spikes</li>
+                <li>Ranked countries by deaths per 100,000 using RANK() for fair comparisons</li>
+                <li>Identified data limitations such as reporting inconsistencies and time-lag effects</li>
+                <li>Collecting primary data via Qualtrics to complement quantitative analysis</li>
               </ul>
+
+              <div class="project-screenshots">
+
+  <div class="screenshot">
+    <img src="images/covid1.png" alt="Death rate ranking query">
+    <p>Countries ranked by COVID-19 death rate per 100,000 population using RANK() window function</p>
+  </div>
+
+  <div class="screenshot">
+    <img src="images/covid2.png" alt="Case fatality comparison">
+    <p>Case fatality rate comparison across vaccination eras using CASE statements for five key countries</p>
+  </div>
+
+  <div class="screenshot">
+    <img src="images/covid3.png" alt="Vaccination rollout CTE">
+    <p>Cumulative vaccination rollout trajectory using CTE and SUM window function</p>
+  </div>
+
+  <div class="screenshot">
+    <img src="images/covid4.png" alt="Rolling average deaths">
+    <p>7-day rolling average of new deaths using AVG with ROWS BETWEEN frame</p>
+  </div>
+
+</div>
+              
 
               <div class="tag-row">
                 <span class="tag">SQL</span>
