@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COVID-19 Global Analysis | Julia Monson</title>
+  <meta name="description" content="SQL analysis, Tableau dashboard, and primary survey research exploring how COVID-19 vaccination rollout related to shifts in death-rate trends across countries and time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #faf7fb;
+      --bg-soft: #f2f6fb;
+      --panel: rgba(255,255,255,0.92);
+      --panel-2: #f9fbff;
+
+      --text: #010101;
+      --muted: #000000;
+
+      /* colors */
+      --accent: #a8c7e8;      /* blue */
+      --accent-2: #f4b6c2;    /* pastel pink */
+      --accent-3: #d9c7f3;    /* lavender */
+      --accent-4: #b8e0d2;    /* mint */
+
+      --line: rgba(120, 140, 170, 0.18);
+      --shadow: 0 16px 35px rgba(120, 140, 170, 0.12);
+
+      /* defined here so the layout is contained + rounded (see note in chat) */
+      --max: 1100px;
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(217,199,232,0.38), transparent 28%),
+        radial-gradient(circle at 90% 8%, rgba(167,207,196,0.32), transparent 22%),
+        linear-gradient(180deg, #fbfbfe 0%, #f2f5f9 100%);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(var(--max), calc(100% - 2rem)); margin: 0 auto; }
+
+    /* NAV */
+    .nav {
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: blur(16px);
+      background: rgba(247, 246, 251, 0.75);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; padding: 1rem 0;
+    }
+    .brand { font-weight: 800; letter-spacing: -0.03em; font-size: 1.05rem; }
+    .brand span { color: #eaadd1; }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+    .nav-links a { color: var(--muted); font-size: 0.95rem; font-weight: 600; transition: 0.2s ease; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-back { color: #6f89ac !important; }
+
+    /* HERO */
+    .hero { padding: 4.5rem 0 2.5rem; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      padding: 0.45rem 0.85rem; border-radius: 999px;
+      background: rgba(140,169,201,0.18); color: #5d7698;
+      border: 1px solid rgba(140,169,201,0.26);
+      font-size: 0.88rem; font-weight: 700; margin-bottom: 1rem;
+    }
+    h1 {
+      margin: 0 0 1rem;
+      font-size: clamp(2.2rem, 4.6vw, 3.9rem);
+      line-height: 1.04; letter-spacing: -0.05em;
+    }
+    h1 span { color: #6f89ac; }
+    .lead { max-width: 64ch; color: var(--muted); font-size: 1.05rem; margin-bottom: 1.4rem; }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-bottom: 1.2rem; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.92rem 1.2rem; border-radius: 999px; font-weight: 700;
+      border: 1px solid transparent; transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .button:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(91, 110, 138, 0.14); }
+    .button.primary { background: linear-gradient(135deg, #a8c7e8, #f4b6c2); color: white; }
+    .button.secondary { background: rgba(255,255,255,0.72); border-color: var(--line); color: var(--text); }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.4rem; }
+    .tag {
+      font-size: 0.82rem; font-weight: 700; padding: 0.45rem 0.85rem; border-radius: 999px;
+      background: linear-gradient(135deg, #ffe4ec, #f8c7d4);
+      border: 1px solid rgba(243, 185, 200, 0.6); color: #000;
+      box-shadow: 0 4px 12px rgba(116, 137, 131, 0.25);
+    }
+
+    /* SECTIONS */
+    section { padding: 1.8rem 0; }
+    .section-head { margin-bottom: 1.2rem; }
+    .section-head h2 {
+      margin: 0 0 0.35rem; font-size: clamp(1.5rem, 2.6vw, 2.1rem); letter-spacing: -0.04em;
+    }
+    .section-head p { margin: 0; color: var(--muted); max-width: 70ch; }
+
+    .panel, .card {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: blur(10px);
+    }
+    .panel { padding: 1.4rem; }
+    .card { padding: 1.3rem; }
+    .card h3 { margin: 0 0 0.55rem; font-size: 1.08rem; }
+    .card p, .card li { color: var(--muted); }
+
+    .grid-2 { display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); }
+
+    /* STATS */
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem; margin: 0.4rem 0 0; }
+    .stat {
+      padding: 1.1rem 1rem; border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.65), rgba(238,243,247,0.85));
+      border: 1px solid var(--line);
+    }
+    .stat strong { display: block; margin-bottom: 0.2rem; font-size: 1.5rem; color: var(--text); letter-spacing: -0.02em; }
+    .stat span { font-size: 0.85rem; color: var(--muted); }
+
+    /* RESEARCH QUESTIONS */
+    .rq-list { display: grid; gap: 0.7rem; margin-top: 0.5rem; }
+    .rq {
+      display: flex; gap: 0.85rem; align-items: flex-start;
+      padding: 0.95rem 1.1rem; border-radius: 16px;
+      background: rgba(255,255,255,0.7); border: 1px solid var(--line);
+    }
+    .rq-num {
+      flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.9rem; color: #4f6278;
+      background: linear-gradient(135deg, rgba(244,182,194,0.45), rgba(168,199,232,0.4));
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    /* TABLEAU EMBED */
+    .viz-wrap {
+      margin-top: 0.4rem; border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--line); box-shadow: var(--shadow); background: #fff;
+    }
+    tableau-viz, .tableauPlaceholder { width: 100%; display: block; }
+    .viz-note { font-size: 0.85rem; color: #617186; margin-top: 0.7rem; }
+
+    /* FINDINGS / METHOD */
+    .lead-in { font-weight: 700; color: var(--text); }
+    ul { padding-left: 1.1rem; margin: 0.7rem 0 0; }
+    li { margin-bottom: 0.4rem; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.82rem; background: rgba(140,169,201,0.14);
+      padding: 0.12rem 0.4rem; border-radius: 6px; color: #3f5066;
+    }
+
+    /* DELIVERABLES */
+    .deliverables { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-top: 0.4rem; }
+    .deliverable {
+      display: flex; align-items: center; gap: 0.85rem;
+      padding: 1rem 1.1rem; border-radius: 16px;
+      background: rgba(255,255,255,0.72); border: 1px solid var(--line);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .deliverable:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(91, 110, 138, 0.14); }
+    .deliverable i { font-size: 1.15rem; color: #6f89ac; width: 22px; text-align: center; }
+    .deliverable strong { display: block; font-size: 0.96rem; color: var(--text); }
+    .deliverable span { font-size: 0.82rem; color: var(--muted); }
+
+    footer { text-align: center; color: var(--muted); padding: 2.5rem 0 3rem; }
+
+    @media (max-width: 980px) {
+      .grid-2, .stat-grid, .deliverables { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .nav-inner { flex-direction: column; align-items: flex-start; }
+      .hero { padding-top: 3.5rem; }
+      .cta-row { flex-direction: column; }
+      .button { width: 100%; }
+      .stat-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">Julia <span>Monson</span></a>
+      <nav class="nav-links">
+        <a class="nav-back" href="index.html#projects"><i class="fa-solid fa-arrow-left"></i> Portfolio</a>
+        <a href="#overview">Overview</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#findings">Findings</a>
+        <a href="#method">Methodology</a>
+        <a href="#deliverables">Deliverables</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="eyebrow"><i class="fa-solid fa-chart-line"></i> Capstone Analytics Project · BAIS 4720</span>
+      <h1>COVID-19 <span>Global Analysis</span></h1>
+      <p class="lead">
+        An end-to-end analytics project combining SQL data engineering, an interactive Tableau dashboard,
+        and original survey research — exploring how the COVID-19 vaccination rollout related to shifts in
+        death-rate trends across countries and over time, while taking a careful look at where public-health
+        data can and can&rsquo;t be trusted.
+      </p>
+      <div class="cta-row">
+        <a class="button primary" href="https://public.tableau.com/app/profile/julia.monson/viz/COVID-19_GlobalAnalysis_Dashboard/COVID-19GlobalAnalysis" target="_blank" rel="noopener">
+          <i class="fa-solid fa-up-right-from-square"></i> Open in Tableau Public
+        </a>
+        <a class="button secondary" href="Files/covid-portfolio-project.sql" target="_blank" rel="noopener">
+          <i class="fa-solid fa-code"></i> View SQL Script
+        </a>
+      </div>
+      <div class="tag-row">
+        <span class="tag">SQL Server</span>
+        <span class="tag">BigQuery</span>
+        <span class="tag">Tableau</span>
+        <span class="tag">Qualtrics</span>
+        <span class="tag">Data Storytelling</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- AT A GLANCE -->
+  <section id="overview">
+    <div class="container">
+      <div class="stat-grid">
+        <div class="stat"><strong>150.6M</strong><span>Global cases analyzed</span></div>
+        <div class="stat"><strong>3.18M</strong><span>Global reported deaths</span></div>
+        <div class="stat"><strong>2.11%</strong><span>Global case-fatality rate</span></div>
+        <div class="stat"><strong>40</strong><span>Primary survey responses</span></div>
+      </div>
+
+      <div class="section-head" style="margin-top:1.8rem;">
+        <h2>The question</h2>
+        <p>
+          When COVID-19 vaccines became widely available, their impact was hotly debated &mdash; and often
+          politicized. This project sets that debate against the data: two global datasets from
+          <em>Our World in Data</em> (deaths and vaccinations) plus an original Qualtrics survey, to explore
+          the relationship between vaccination rollout and mortality trends, and to surface the data-quality
+          issues that make that relationship harder to read than it looks.
+        </p>
+      </div>
+
+      <div class="panel">
+        <p class="lead-in">Three research questions guided the project:</p>
+        <div class="rq-list">
+          <div class="rq"><div class="rq-num">1</div><div>Did the COVID-19 vaccination rollout correlate with reductions in mortality over time?</div></div>
+          <div class="rq"><div class="rq-num">2</div><div>Which countries were hit hardest, and when did vaccines actually arrive there?</div></div>
+          <div class="rq"><div class="rq-num">3</div><div>What does the global and continental picture look like across the pandemic timeline?</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard">
+    <div class="container">
+      <div class="section-head">
+        <h2>Interactive dashboard</h2>
+        <p>
+          Built in Tableau on six purpose-built SQL views. Hover, filter, and click through the live version
+          below &mdash; or open it full-screen in Tableau Public.
+        </p>
+      </div>
+
+      <div class="viz-wrap">
+        <tableau-viz
+          id="covidViz"
+          src="https://public.tableau.com/views/COVID-19_GlobalAnalysis_Dashboard/COVID-19GlobalAnalysis"
+          toolbar="bottom"
+          hide-tabs>
+        </tableau-viz>
+      </div>
+      <p class="viz-note">
+        <i class="fa-solid fa-circle-info"></i>
+        The dashboard pairs global KPIs and a world infection-rate map with deaths by continent, a
+        pre- vs. early-vaccination era comparison, rolling vaccination rollout, and a seven-day average
+        death trend. If the embed doesn&rsquo;t load on your network,
+        <a class="nav-back" href="https://public.tableau.com/app/profile/julia.monson/viz/COVID-19_GlobalAnalysis_Dashboard/COVID-19GlobalAnalysis" target="_blank" rel="noopener">open it directly in Tableau Public &nearr;</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- FINDINGS -->
+  <section id="findings">
+    <div class="container">
+      <div class="section-head">
+        <h2>What the data showed</h2>
+        <p>Framed as exploration of relationships in observational data &mdash; not a causal claim about the vaccine.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Death-rate trends shifted alongside rollout</h3>
+          <p>
+            Comparing a pre-vaccination era to an early-vaccination era across the five focus countries, the
+            case-fatality rate trended downward in most after vaccines were introduced &mdash; consistent with,
+            though not proof of, a protective effect. The relationship is clearly time-lagged: changes show up
+            well after rollout begins.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Impact was deeply uneven by region</h3>
+          <p>
+            Europe, North America, and South America carried the heaviest reported death counts, while the
+            infection-rate map shows the United States, United Kingdom, and parts of Europe with the highest
+            share of population infected &mdash; useful for thinking about where limited vaccine supply would
+            matter most.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Rollout timing varied widely</h3>
+          <p>
+            The rolling-vaccination view makes the staggered global timeline obvious: wealthier countries
+            ramped first, with much of the world following months later &mdash; a key caveat when reading any
+            country-to-country mortality comparison.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Reported data has real blind spots</h3>
+          <p>
+            Cross-country differences in how a &ldquo;COVID-19 death&rdquo; is defined and recorded mean the raw
+            numbers understate true mortality in places with weaker registration systems &mdash; which is why
+            the analysis leans on five countries with strong civil-registration data while keeping the global
+            picture for context.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY -->
+  <section id="method">
+    <div class="container">
+      <div class="section-head">
+        <h2>How it was built</h2>
+        <p>Secondary data engineered in SQL; primary data collected and cleaned from an original survey.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3><i class="fa-solid fa-database"></i> Secondary data &mdash; SQL</h3>
+          <ul>
+            <li>Removed continent-level aggregate rows with <code>WHERE continent IS NOT NULL</code> to prevent double-counting deaths.</li>
+            <li>Cast text-typed measures to numeric (<code>CAST(... AS BIGINT/FLOAT)</code>) so they could be aggregated.</li>
+            <li>Guarded against early-pandemic divide-by-zero errors using <code>NULLIF(total_cases, 0)</code>.</li>
+            <li>Built a rolling cumulative vaccination total with a window function:
+              <code>SUM(...) OVER (PARTITION BY location ORDER BY date)</code>.</li>
+            <li>Used CTEs and ranking/lag functions for pre- vs. post-vaccination era comparisons.</li>
+            <li>Packaged the results into six Tableau-ready views.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><i class="fa-solid fa-clipboard-question"></i> Primary data &mdash; survey</h3>
+          <ul>
+            <li>Original Qualtrics survey distributed to adults 18+ on vaccination attitudes and outcomes.</li>
+            <li>Captured doses received, booster intent, and trust drivers (health, government, media, medical advice) on a 7-point scale.</li>
+            <li>Included an open-ended question for qualitative detail on what shaped each decision.</li>
+            <li>Cleaned to <strong>40 valid responses</strong> &mdash; removing previews, incompletes, an under-18 respondent, and blanks.</li>
+            <li>Used to compare local attitudes against documented behavioral research on vaccine uptake.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DELIVERABLES -->
+  <section id="deliverables">
+    <div class="container">
+      <div class="section-head">
+        <h2>Project deliverables</h2>
+        <p>Everything behind the analysis &mdash; code, data, research, and the full write-up.</p>
+      </div>
+      <div class="deliverables">
+        <a class="deliverable" href="https://public.tableau.com/app/profile/julia.monson/viz/COVID-19_GlobalAnalysis_Dashboard/COVID-19GlobalAnalysis" target="_blank" rel="noopener">
+          <i class="fa-solid fa-chart-column"></i>
+          <span><strong>Live Tableau Dashboard</strong><span>Interactive, six linked views</span></span>
+        </a>
+        <a class="deliverable" href="Files/covid-portfolio-project.sql" target="_blank" rel="noopener">
+          <i class="fa-solid fa-code"></i>
+          <span><strong>SQL Script</strong><span>Cleaning, joins, window functions, views</span></span>
+        </a>
+        <a class="deliverable" href="Files/covid-literature-review.pdf" target="_blank" rel="noopener">
+          <i class="fa-solid fa-file-lines"></i>
+          <span><strong>Literature Review &amp; Report</strong><span>Methods, sources, and limitations</span></span>
+        </a>
+        <a class="deliverable" href="https://eiu.co1.qualtrics.com/jfe/form/SV_3Q3jEfvndRSsEOW" target="_blank" rel="noopener">
+          <i class="fa-solid fa-square-poll-vertical"></i>
+          <span><strong>Survey Instrument</strong><span>Qualtrics questionnaire</span></span>
+        </a>
+        <a class="deliverable" href="Data/covid-deaths-dataset.xlsx" target="_blank" rel="noopener">
+          <i class="fa-solid fa-table"></i>
+          <span><strong>Dataset &mdash; Deaths</strong><span>Our World in Data</span></span>
+        </a>
+        <a class="deliverable" href="Data/covid-vaccinations-dataset.xlsx" target="_blank" rel="noopener">
+          <i class="fa-solid fa-table"></i>
+          <span><strong>Dataset &mdash; Vaccinations</strong><span>Our World in Data</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Julia Monson · <a class="nav-back" href="index.html">Back to portfolio</a></p>
+    </div>
+  </footer>
+
+  <!-- Tableau Embedding API v3 -->
+  <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+</body>
+</html>
